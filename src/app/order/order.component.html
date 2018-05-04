@@ -1,0 +1,125 @@
+<!--INICIO DO CONTEUDO-->
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+    <!-- {{formi.valid}} {{formi.value | json}} -->
+    <!-- {{formularioCompra.valid}}
+    {{formularioCompra.value | json}} -->
+
+    <form [formGroup]="formularioCompra">
+      <!--#formi='ngForm'-->
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+          </h2>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-sm-9">
+          <p class="lead">Seus Dados:</p>
+        </div>
+        <div class="col-xs-12 col-sm-3">
+          <span class="help-block pull-right has-error-block" *ngIf="formularioCompra.hasError('emailInvalido')">
+            <i class="fa fa-check"></i> E-mail não confere.</span>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container msgErro="Campo obrigatório" label="Nome">
+            <input class="form-control" formControlName="nome" autocomplete="off" placeholder="Nome">
+          </mt-input-container>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container msgErro="E-mail inválido" label="Email">
+            <input class="form-control" formControlName="email" autocomplete="off" placeholder="E-mail">
+          </mt-input-container>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container msgErro="E-mail inválido" label="EmailConfirma">
+            <!-- ngModel required minlength="5" USADO NO NGMODEL -->
+            <input class="form-control" formControlName="emailConfirma" autocomplete="off" placeholder="Confirmação de e-mail">
+          </mt-input-container>
+        </div>
+
+      </div>
+
+      <div class="row invoice-info">
+        <div class="col-xs-12">
+          <p class="lead">Endereço de Entrega:</p>
+        </div>
+
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container msgErro="Campo obrigatório, mínimo 5 caracteres." label="Endereço">
+            <input class="form-control" formControlName="endereco" autocomplete="off" placeholder="Endereço">
+          </mt-input-container>
+        </div>
+
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container msgErro="Campo obrigatório. Somente número" label="Número">
+            <input class="form-control" formControlName="numero" placeholder="Número" placeholder="Número" autocomplete="off">
+            <!-- pattern="^[0-9]*$" -->
+          </mt-input-container>
+        </div>
+
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container msgErro="Campo não obrigatório.">
+            <input type="text" class="form-control" formControlName="complemento" id="inputSuccess" placeholder="Complemento">
+          </mt-input-container>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <!-- Table row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="lead">Itens do Pedido:</p>
+        </div>
+        <div class="col-xs-12 table-responsive">
+
+          <mt-order-list [items]="cartItems()" (aumentarQnt)="aumentarQtd($event)" (diminuirQnt)="diminuirQtd($event)" (remover)="removerItem($event)"></mt-order-list>
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Formas de Pagamento:</p>
+
+          <div class="form-group">
+
+            <mt-radio [options]="opPagamento" formControlName="formaPagamento"></mt-radio>
+
+          </div>
+
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Frete e Total:</p>
+          <mt-delivery-costs [valorFrete]="valorEntrega" [valorItens]="valorItens()"></mt-delivery-costs>
+        </div>
+        <!-- /.col -->
+      </div>
+
+    </form>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <button (click)="checkOrder(formularioCompra.value)" [disabled]="!formularioCompra.valid || cartItems().length == 0" class="btn btn-success pull-right">
+          <i class="fa fa-credit-card"></i> Concluir Pedido
+        </button>
+      </div>
+    </div>
+
+  </section>
+</section>
+<!-- FIM DO CONTEUDO-->

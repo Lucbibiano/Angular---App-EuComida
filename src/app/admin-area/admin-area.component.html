@@ -1,0 +1,31 @@
+<section class="content-header">
+  <h1>
+
+  </h1>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <i class="fa fa-user"> AREA ADMINISTRATIVA</i>
+          <br>
+          <div class="lead">Inclua restaurantes e menus aqui:</div>
+          <div class="box-body">
+            <div class="box-footer detail-footer">
+              <a class="pull-left" routerLinkActive="detail-active" [routerLink]="['addrestaurant']">
+                Restaurante
+              </a>
+              <a class="pull-right" routerLinkActive="detail-active" [routerLink]="['addrecipe']">
+                Refeição
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+            <router-outlet></router-outlet>
+  </div>
+</section>

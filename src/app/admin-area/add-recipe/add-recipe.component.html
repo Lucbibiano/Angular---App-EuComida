@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2 class="page-header">
+      <i class="fa fa-pencil"></i> Adicione um produto para o seu restaurante
+    </h2>
+  </div>
+</div>
+<form [formGroup]="formularioReceita">
+
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Nome do produto:</label>
+      <mt-input-container msgErro="Campo obriogatório" label="Nome">
+        <input class="form-control" formControlName="name" autocomplete="off" placeholder="Nome">
+      </mt-input-container>
+    </div>
+
+    <!-- Usa o componente Input para fazer a validação do campo -->
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Descrição:</label>
+      <mt-input-container label="Descrição">
+        <input class="form-control" formControlName="description" autocomplete="off" placeholder="Descrição">
+      </mt-input-container>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Preço:</label>
+      <mt-input-container msgErro="Campo obriogatório" label="Preco">
+        <input class="form-control" formControlName="price" autocomplete="off" placeholder="Preço">
+      </mt-input-container>
+    </div>
+
+    <!-- Faz a validação neste componente -->
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Restaurante</label>
+      <select class="form-control" formControlName="restaurantId">
+        <option value="" selected disabled>Selecione o restaurante</option>
+        <option *ngFor="let r of restaurantServ.restaurants" value="{{r.id}}">{{r.name}}</option>
+      </select>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+        <label class="lead red">Escolha uma imagem:</label>
+        <input style="display: none" class="form-control" type="file" id="imagePath" formControlName="imagePath" (change)="onImgChange($event)"
+          #fileInput>
+        <div>
+          <button class="btn" [ngStyle]="{'background-color':'red', 'color': 'white'}" (click)="fileInput.click()">Selecione uma imagem</button>
+          <p class="lead" *ngIf="img">{{img.name}}</p>
+        </div>
+      </div>
+
+  </div>
+</form>
+<button class="btn-lg pull-left" [disabled]="!formularioReceita.valid" [ngStyle]="{'background-color':'red', 'color': 'white'}" (click)="addRecipe(formularioReceita.value)">Adicionar Receita</button>
+<!-- formularioReceita.value -->

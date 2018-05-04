@@ -1,0 +1,6 @@
+{
+    "compileOnSave": true, //compilar de ts para js ao salvar
+    "compilerOptions": {
+        "outDir": "dist"
+    }
+}

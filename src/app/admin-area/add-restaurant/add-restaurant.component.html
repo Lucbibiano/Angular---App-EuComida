@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h2 class="page-header">
+      <i class="fa fa-pencil"></i> Adicione o seu restaurante
+    </h2>
+  </div>
+</div>
+<form [formGroup]="formularioRestaurante">
+
+  <div class="row">
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Nome do restaurante:</label>
+      <mt-input-container msgErro="Campo obriogatório" label="Nome">
+        <input class="form-control" formControlName="name" autocomplete="off" placeholder="Nome">
+      </mt-input-container>
+    </div>
+
+    <!-- Usa o componente Input para fazer a validação do campo -->
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Estimativa de entrega:</label>
+      <mt-input-container msgErro="Campo obriogatório. Exemplo: 20-30m" label="Estimativa">
+        <input class="form-control" formControlName="deliveryEstimate" autocomplete="off" placeholder="Estimativa">
+      </mt-input-container>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Sobre o restaurante:</label>
+      <mt-input-container msgErro="Campo obriogatório" label="Sobre">
+        <input class="form-control" formControlName="about" autocomplete="off" placeholder="Sobre">
+      </mt-input-container>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Horário de funcionamento:</label>
+      <mt-input-container msgErro="Campo obriogatório" label="Funcionamento">
+        <input class="form-control" formControlName="hours" autocomplete="off" placeholder="Horario de funcionamento">
+      </mt-input-container>
+    </div>
+
+    <!-- Faz a validação neste componente -->
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead">Categoria do restaurante:</label>
+      <select class="form-control" formControlName="category" (change)="anotherCategoryChange($event)">
+        <option value="" selected disabled>Selecione a categoria</option>
+        <option *ngFor="let c of restaurantServ.restaurants" value="{{c.category}}">{{c.category}}</option>
+        <option value="outra">Outra</option>
+      </select>
+    </div>
+    <div class="col-sm-6 col-xs-12" *ngIf="outraC">
+      <label class="lead">Digite a categoria abaixo:</label>
+      <mt-input-container msgErro="Campo obriogatório">
+        <input class="form-control" formControlName="otherCategory" autocomplete="off" placeholder="Qual é a categoria?">
+      </mt-input-container>
+    </div>
+
+    <div class="col-sm-6 col-xs-12">
+      <label class="lead red">Escolha uma imagem:</label>
+      <input style="display: none" class="form-control" type="file" id="imagePath" formControlName="imagePath" (change)="onImgChange($event)"
+        #fileInput>
+      <div>
+        <button class="btn" [ngStyle]="{'background-color':'red', 'color': 'white'}" (click)="fileInput.click()">Selecione uma imagem</button>
+        <p class="lead" *ngIf="img">{{img.name}}</p>
+      </div>
+    </div>
+  </div>
+</form>
+<button class="btn-lg pull-left" [disabled]="!formularioRestaurante.valid" [ngStyle]="{'background-color':'red', 'color': 'white'}" (click)="addRestaurant(formularioRestaurante.value)">Adicionar Restaurante</button>
