@@ -34,7 +34,7 @@
     <!-- Faz a validação neste componente -->
     <div class="col-sm-6 col-xs-12">
       <label class="lead">Restaurante</label>
-      <select class="form-control" formControlName="restaurantId">
+      <select clas fs="form-control" formControlName="restaurantId">
         <option value="" selected disabled>Selecione o restaurante</option>
         <option *ngFor="let r of restaurantServ.restaurants" value="{{r.id}}">{{r.name}}</option>
       </select>
