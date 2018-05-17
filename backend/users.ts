@@ -9,7 +9,7 @@ export class User {
         return another !== undefined && another.email === this.email && another.password === this.password;
     }
 
-}
+}   
 
 export const users: {[key: string]: User} = {
     "teste@teste.com": new User("teste@teste.com", "Teste", "user", "teste123"),

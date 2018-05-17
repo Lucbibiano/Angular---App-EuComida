@@ -4,7 +4,7 @@ import { LoginService } from './login.service';
 import { User } from './user.model';
 import { NotificationService } from '../../shared/messages/notification.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 
 @Component({

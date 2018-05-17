@@ -3,13 +3,9 @@ import { Restaurant } from './restaurant/restaurant.model';
 import { RestaurantsService } from './restaurants.service';
 import { trigger, state, style, transition, animate } from "@angular/animations";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/observable/from';
-import 'rxjs/add/operator/catch';
+import { Observable, from } from 'rxjs';
+import { switchMap, tap, debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
+
 
 @Component({
   selector: 'mt-restaurants',
@@ -48,14 +44,16 @@ export class RestaurantsComponent implements OnInit {
     })
   
     this.searchControl.valueChanges
-            .debounceTime(500) // aguarda o tempo informado em parecenteses e ms para pesquisae 
-            .distinctUntilChanged() // envia somente eventos que sejam diferentes um dos outros, se for igual não procura
-            // .do(termo => console.log(`q=${termo}`)) //Apenas um teste
-            .switchMap(termo => 
-            this.restService.restaurants(termo)
-            .catch(erroBusca => Observable.from([]))) // O catch ajuda a barra a não retornar erro caso o banco de dados não exista ou
-            //não haja sucesso na busca, ele mantem o processo funcionando, não quebra o processo.
-            .subscribe(rests => this.restaurants = rests);
+            .pipe(
+              debounceTime(500), // aguarda o tempo informado em parecenteses e ms para pesquisae 
+              distinctUntilChanged(), // envia somente eventos que sejam diferentes um dos outros, se for igual não procura // .do(termo => console.log(`q=${termo}`)) //Apenas um teste
+              switchMap(termo => 
+                this.restService
+                .restaurants(termo)
+                .pipe(
+                  catchError(erroBusca => from([])))) // O catch ajuda a barra a não retornar erro caso o banco de dados não exista ou
+                  //não haja sucesso na busca, ele mantem o processo funcionando, não quebra o processo.
+                ).subscribe(rests => this.restaurants = rests);
 
     this.restService.restaurants().subscribe(rests => this.restaurants = rests); // preciso deste observable só para construir a tela.
     // this.searchControl.valueChanges.subscribe(termo => console.log(termo)); // imprimir o que chega

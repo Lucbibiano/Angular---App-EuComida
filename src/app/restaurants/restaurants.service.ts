@@ -1,12 +1,10 @@
 import { Restaurant } from "./restaurant/restaurant.model";
 import { Injectable } from "@angular/core";
-import "rxjs/add/operator/map";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import {MEAT_API} from "../app.api";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/operator/catch";
+import { Observable } from "rxjs";
+import { map } from 'rxjs/operators';
 import { MenuItem } from "../restaurant-detail/menu-item/menu-item.model";
-import { map } from "rxjs/operator/map";
 import { serializePath } from "@angular/router/src/url_tree";
 
 @Injectable()

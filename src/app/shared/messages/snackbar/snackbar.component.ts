@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { NotificationService } from '../notification.service';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
-
+import { Observable, timer } from 'rxjs';
+import {tap, switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'mt-snackbar',
@@ -42,11 +39,13 @@ export class SnackbarComponent implements OnInit {
   ngOnInit() { // é recomendável chamar o notificador aqui pois o componente aqui
 
     this.notificationServ.notificador
-      .do(msg => { // faz uma ação no momento em que a mensagem chega
-        this.message = msg;
-        this.VisibilidadeDoSnack = "mostra";
-      }).switchMap(msg => Observable.timer(3000))//troca o observable, desta forma, fazemos o unsub do obs antigo e sub no novo(iniciando um novo timer)
-      .subscribe(timer => this.VisibilidadeDoSnack = "oculta")
+    .pipe(
+      tap(msg => { // faz uma ação no momento em que a mensagem chega
+      this.message = msg;
+      this.VisibilidadeDoSnack = "mostra";
+    }),switchMap(msg => timer(3000))//troca o observable, desta forma, fazemos o unsub do obs antigo e sub no novo(iniciando um novo timer)
+  ).subscribe(timer => this.VisibilidadeDoSnack = "oculta")
+  
     // this.notificationServ.notificador.subscribe(msg => {
     //   this.message = msg;
     //   this.VisibilidadeDoSnack = "mostra";

@@ -17,7 +17,7 @@
           <tr *ngFor="let item of items()" [@linha]="estadoLinha">
             <th>({{item.quantidade}}) X {{item.menuItem.name}}</th>
 
-            <td class="text-right">{{item.valor() | currency: 'BRL': true}}</td>
+            <td class="text-right">{{item.valor() | currency: 'BRL': 'symbol'}}</td>
             <td class="text-right">
               <a (click)="removeItem(item)" class="btn btn-sm danger">
                 <i class="fa fa-remove"></i>
@@ -26,7 +26,7 @@
           </tr>
           <tr>
             <th>Total:</th>
-            <td class="text-right">{{total() | currency: 'BRL': true}}</td>
+            <td class="text-right">{{total() | currency: 'BRL': 'symbol'}}</td>
           </tr>
         </tbody>
       </table>
